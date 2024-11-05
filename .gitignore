@@ -1,5 +1,5 @@
 # Node.js / NPM related
-node_modules/            # Dependency folder (will be recreated by npm install)
+./node_modules/            # Dependency folder (will be recreated by npm install)
 
 
 # npm package-lock file (optional, but can be useful for deterministic builds)
