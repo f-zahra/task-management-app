@@ -1,6 +1,6 @@
 # Node.js / NPM related
-node_modules/            # Dependency folder (will be recreated by npm install)
-
+node_modules/          
+.env
 
 # npm package-lock file (optional, but can be useful for deterministic builds)
 # package-lock.json       # Uncomment this line if you do not want to track the lock file
