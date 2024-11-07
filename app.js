@@ -5,13 +5,11 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-const userModel = require("./models/User");
+const userRouter = require("./routes/users");
+
 const taskModel = require("./models/Task");
 var app = express();
 db();
-
-// Create a new user with tasks
 
 // Create a new user with tasks
 const createUser = async () => {
@@ -45,9 +43,7 @@ const createTask = async () => {
     console.error("Error saving task:", error);
   }
 };
-// Call the createUser function to create and save the user
-//createUser();
-//createTask();
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -58,8 +54,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+//Routes
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/users", userRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
