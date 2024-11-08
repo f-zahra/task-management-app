@@ -6,28 +6,28 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const users = await userModel.find();
-    console.log(users);
+    res.status(200).send(users);
   } catch (err) {
-    console.error(err);
+    res.status(404).send("not found");
   }
 });
 
 /* Get a user */
-router.get("/users/:userId", function (req, res, next) {
+router.get("/:userId", function (req, res, next) {
   //TODO
 });
 
 /*POST new user */
-router.post("/users", (req, res) => {
+router.post("/create", (req, res) => {
   //TODO
 });
 /*UPDATE user*/
-router.put("/users/:userId", (req, res) => {
+router.put("/:userId/update", (req, res) => {
   //TODO
 });
 
 /*DELETE user */
-router.delete("/users/:userId", (req, res) => {
+router.delete("/:userId/delete", (req, res) => {
   //TODO
 });
 module.exports = router;
