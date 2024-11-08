@@ -5,7 +5,9 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var indexRouter = require("./routes/index");
+const userModel = require("./models/User");
 const userRouter = require("./routes/users");
+const taskRouter = require("./routes/tasks");
 
 const taskModel = require("./models/Task");
 var app = express();
@@ -33,6 +35,7 @@ const createTask = async () => {
     dueDate: new Date("2024-11-15"), // You can specify the due date
     status: "Not Started",
     priority: "High",
+    user: "672d5332942906369e386d73",
   });
 
   // Save the new task document
@@ -43,7 +46,8 @@ const createTask = async () => {
     console.error("Error saving task:", error);
   }
 };
-
+//createUser();
+//createTask();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -57,6 +61,7 @@ app.use(express.static(path.join(__dirname, "public")));
 //Routes
 app.use("/", indexRouter);
 app.use("/users", userRouter);
+app.use("/tasks", taskRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

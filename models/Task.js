@@ -15,7 +15,7 @@ const taskSchema = new Schema({
     enum: ["Low", "Medium", "High"],
     default: "Medium",
   },
-  user: { type: Schema.Types.ObjectId, ref: "Task", required: true },
+  user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
 const Task = mongoose.model("Task", taskSchema);
 
