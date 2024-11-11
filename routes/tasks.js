@@ -1,47 +1,19 @@
 var express = require("express");
-const taskModel = require("../models/Task");
 const router = express.Router();
-const asyncHandler = require("express-async-handler");
+const tasksController = require("../controllers/tasksController");
 
 /* GET all tasks */
-router.get(
-  "/:userId/",
-  asyncHandler(async (req, res, next) => {
-    const tasks = await taskModel.find({ user: req.params.userId });
-
-    res.status(200).send(tasks);
-  })
-);
+router.get("/:userId/", tasksController.getAllTasks);
 
 /* Get a task */
-router.get(
-  "/:userId/:taskId",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.get("/:userId/:taskId", tasksController.getTask);
 
 /*POST new task */
-router.post(
-  "/:userId/create",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.post("/:userId/create", tasksController.createTask);
 
 /*UPDATE task*/
-router.put(
-  "/:userId/:taskId/update",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.put("/:userId/:taskId/update", tasksController.updateTask);
 
 /*DELETE task */
-router.delete(
-  "/:userId/:taskId/delete",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.delete("/:userId/:taskId/delete", tasksController.deleteTask);
 module.exports = router;
