@@ -12,42 +12,6 @@ const taskRouter = require("./routes/tasks");
 const taskModel = require("./models/Task");
 var app = express();
 db();
-
-// Create a new user with tasks
-const createUser = async () => {
-  // Define a new user with embedded tasks
-  const newUser = new userModel({
-    name: "Alice Johnson",
-    email: "alice.johnson@example.com",
-  });
-
-  // Save the new user document
-  try {
-    const savedUser = await newUser.save(); // Use 'await' here because 'save' returns a promise
-    console.log("User saved:", savedUser);
-  } catch (error) {
-    console.error("Error saving user:", error);
-  }
-};
-const createTask = async () => {
-  const newTask = new taskModel({
-    description: "Complete task 1",
-    dueDate: new Date("2024-11-15"), // You can specify the due date
-    status: "Not Started",
-    priority: "High",
-    user: "672d5332942906369e386d73",
-  });
-
-  // Save the new task document
-  try {
-    const savedTask = await newTask.save();
-    console.log("Task saved:", savedTask);
-  } catch (error) {
-    console.error("Error saving task:", error);
-  }
-};
-//createUser();
-//createTask();
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
