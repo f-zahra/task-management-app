@@ -1,45 +1,19 @@
 var express = require("express");
-const userModel = require("../models/User");
+
 const router = express.Router();
-const asyncHandler = require("express-async-handler");
+const usersController = require("../controllers/usersController");
 
 /* GET all users */
-router.get(
-  "/",
-  asyncHandler(async (req, res, next) => {
-    const users = await userModel.find();
-    res.status(200).send(users);
-  })
-);
+router.get("/", usersController.getAllUsers);
 
 /* Get a user */
-router.get(
-  "/:userId",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.get("/:userId", usersController.getUser);
 
 /*POST new user */
-router.post(
-  "/create",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.post("/create", usersController.createUser);
 /*UPDATE user*/
-router.put(
-  "/:userId/update",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.put("/:userId/update", usersController.updateUser);
 
 /*DELETE user */
-router.delete(
-  "/:userId/delete",
-  asyncHandler(async (req, res, next) => {
-    res.send("NOT IMPLEMENTED");
-  })
-);
+router.delete("/:userId/delete", usersController.deleteUser);
 module.exports = router;
