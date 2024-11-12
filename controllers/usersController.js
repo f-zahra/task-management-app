@@ -2,8 +2,12 @@ const userModel = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
-  const users = await userModel.find();
-  res.status(200).send(users);
+  const users = await userModel.find().select("name").exec();
+
+  res.render("user_list", {
+    title: "user's list ",
+    user_list: users,
+  });
 });
 
 exports.getUser = asyncHandler(async (req, res, next) => {
