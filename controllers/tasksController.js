@@ -16,7 +16,7 @@ exports.getTask = asyncHandler(async (req, res, next) => {
 exports.createTask = asyncHandler(async (req, res, next) => {
   const { description, dueDate, status, priority, user } = req.body;
 
-  const newTask = new Task({
+  const newTask = new taskModel({
     description,
     dueDate,
     status,

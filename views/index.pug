@@ -1,5 +1,12 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+ h1= title
+ p Welcome to #[em task Manager app], a very basic Express website developed as a tutorial example on the Mozilla Developer Network.
+
+ p the app has this number of records 
+
+
+ ul 
+  li #[strong Users:] !{user_count}
+  li #[strong Tasks:] !{task_count}
