@@ -7,16 +7,28 @@ exports.getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 exports.getUser = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const user = await userModel.findById(req.params.userId);
+  res.status(200).send(user);
 });
 
 exports.createUser = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const { name, email } = req.body;
+
+  const newUser = new userModel({ name, email });
+
+  const savedUser = await newUser.save();
+  res.status(201).send(savedUser);
 });
 exports.updateUser = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const updatedUser = await userModel.findByIdAndUpdate(
+    req.params.userId,
+    req.body,
+    { new: true }
+  );
+  res.status(200).send(updatedUser);
 });
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const userToDelete = await userModel.findByIdAndDelete(req.params.userId);
+  res.status(200).send("user deleted");
 });
