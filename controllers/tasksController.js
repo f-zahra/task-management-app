@@ -8,17 +8,38 @@ exports.getAllTasks = asyncHandler(async (req, res, next) => {
 });
 
 exports.getTask = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const task = await taskModel.findById(req.params.taskId);
+
+  res.status(200).send(task);
 });
 
 exports.createTask = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const { description, dueDate, status, priority, user } = req.body;
+
+  const newTask = new Task({
+    description,
+    dueDate,
+    status,
+    priority,
+    user,
+  });
+
+  const savedTask = await newTask.save();
+
+  return res.status(201).json(savedTask);
 });
 
 exports.updateTask = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const updatedTask = await taskModel.findByIdAndUpdate(
+    req.params.taskId,
+    req.body,
+    { new: true }
+  );
+  res.status(200).send(updatedTask);
 });
 
 exports.deleteTask = asyncHandler(async (req, res, next) => {
-  res.send("NOT IMPLEMENTED");
+  const taskToDelete = await taskModel.findByIdAndDelete(req.params.taskId);
+
+  res.status(200).send("task deleted");
 });
