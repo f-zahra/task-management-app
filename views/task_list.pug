@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+
+  if task_list.length
+    ul
+      each task in task_list
+        li
+          p= task.description
+          
+          if task.status=='Completed'
+            span.text-success #{task.status}
+          else if task.status=='Not Started'
+            span.text-danger #{task.status}
+          else
+            span.text-warning #{task.status}
+          if task.status!='Completed'
+            span  (Due: #{task.dueDate} )
+
+          span Priority: 
+            strong= task.priority
+
+  else
+    p There are no tasks 

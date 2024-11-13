@@ -4,7 +4,10 @@ const asyncHandler = require("express-async-handler");
 exports.getAllTasks = asyncHandler(async (req, res, next) => {
   const tasks = await taskModel.find({ user: req.params.userId });
 
-  res.status(200).send(tasks);
+  res.render("task_list", {
+    title: "task list ",
+    task_list: tasks,
+  });
 });
 
 exports.getTask = asyncHandler(async (req, res, next) => {

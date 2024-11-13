@@ -2,12 +2,16 @@ extends layout
 
 block content
   h1= title
+
+  
   if user_list.length
     ul
       each user in user_list
         li
-          a(href=user.url) #{user.name}
-          |  (task count : NOT IMPLEMENTED #{user.TaskCount})
+          
+          a(href=`/tasks/${user.id}`) #{user.name}
+          
+          |  (task count: #{user.TaskCount || "NOT IMPLEMENTED"}) 
 
   else
     p There are no users.
