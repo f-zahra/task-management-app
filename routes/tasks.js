@@ -3,7 +3,10 @@ const router = express.Router();
 const tasksController = require("../controllers/tasksController");
 
 /* GET all tasks */
-router.get("/:userId/", tasksController.getAllTasks);
+router.get("/", tasksController.getAllTasks);
+
+/* GET all tasks of a single user*/
+router.get("/:userId/", tasksController.getAllUserTasks);
 
 /* Get a task */
 router.get("/:userId/:taskId", tasksController.getTask);
