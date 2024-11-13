@@ -8,7 +8,7 @@ block content
       each task in task_list
         li
           p= task.description
-          
+
           if task.status=='Completed'
             span.text-success #{task.status}
           else if task.status=='Not Started'
@@ -16,7 +16,7 @@ block content
           else
             span.text-warning #{task.status}
           if task.status!='Completed'
-            span  (Due: #{task.dueDate} )
+            span  (Due: #{task.due_back_formatted} )
 
           span Priority: 
             strong= task.priority
