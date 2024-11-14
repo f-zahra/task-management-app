@@ -1,4 +1,5 @@
 const taskModel = require("../models/Task");
+const userModel = require("../models/User");
 const asyncHandler = require("express-async-handler");
 
 exports.getAllTasks = asyncHandler(async (req, res, next) => {
@@ -22,10 +23,15 @@ exports.getTask = asyncHandler(async (req, res, next) => {
   res.status(200).send(task);
 });
 
-exports.get_createTask = (req, res, next) => {
+exports.get_createTask = asyncHandler(async (req, res, next) => {
   const today = new Date().toISOString().split("T")[0];
-  res.render("task_form", { title: "Create Task", today: today });
-};
+  const allUsers = await userModel.find().exec();
+  const users = res.render("task_form", {
+    title: "Create Task",
+    today: today,
+    users: allUsers,
+  });
+});
 exports.createTask = asyncHandler(async (req, res, next) => {
   const { description, dueDate, status, priority, user } = req.body;
 

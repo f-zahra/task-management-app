@@ -31,6 +31,9 @@ block content
         label(for="selectedUser") Choose a user:
         select#selectedUser.form-control(name="selectedUser", required=true)
           option(value="") -- Select a User --
+          each user in users
+            option(value=user._id) #{user.name}
+
             
 
   button.btn.btn-primary(type='submit') Submit
