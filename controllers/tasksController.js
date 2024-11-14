@@ -81,9 +81,11 @@ exports.createTask = [
 
     if (!errors.isEmpty()) {
       const users_list = await all_users();
+      const today = new Date().toISOString().split("T")[0];
       res.render("task_form", {
         users: users_list,
         errors: errors.array(),
+        today: today,
       });
     } else {
       const { description, dueDate, status, priority, selectedUser } = req.body;

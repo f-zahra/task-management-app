@@ -11,12 +11,9 @@ router.post("/create-task", tasksController.createTask);
 /* GET all tasks of a single user*/
 router.get("/:userId/", tasksController.getAllUserTasks);
 
-/* Get a task */
-router.get("/:userId/:taskId", tasksController.getTask);
-
 /*UPDATE task*/
-router.put("/:userId/:taskId/update", tasksController.updateTask);
+router.put("/update-task", tasksController.updateTask);
 
 /*DELETE task */
-router.delete("/:userId/:taskId/delete", tasksController.deleteTask);
+router.delete("/delete-task", tasksController.deleteTask);
 module.exports = router;
