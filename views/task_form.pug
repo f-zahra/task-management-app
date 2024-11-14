@@ -16,9 +16,9 @@ block content
     div.form-group
         label(for="status") Status:
         select#status.form-control(name="status")
-            option(value="Not Started") Not Started
-            option(value="In Progress") In Progress
-            option(value="Completed") Completed
+            option(value="not started") Not Started
+            option(value="in progress") In Progress
+            option(value="completed") Completed
 
     div.form-group
         label(for="priority") Priority:
@@ -27,18 +27,19 @@ block content
             option(value="medium") medium
             option(value="high") high
 
-    div
-        label(for="selectedUser") Choose a user:
-        select#selectedUser.form-control(name="selectedUser", required=true)
-          option(value="") -- Select a User --
+    div.form-group
+      label(for="selectedUser") Choose a user:
+      select#selectedUser.form-control(name="selectedUser", required=true)
+        option(value="") -- Select a User --
+        if users && users.length
           each user in users
             option(value=user._id) #{user.name}
+        else
+          option(value="") No users available
 
-            
+    button.btn.btn-primary(type='submit') Submit
 
-  button.btn.btn-primary(type='submit') Submit
-
-  if errors
-    ul
-      for error in errors
-        li!= error.msg
+    if errors
+      ul
+        each error in errors
+          li #{error.msg}

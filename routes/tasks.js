@@ -6,14 +6,13 @@ const tasksController = require("../controllers/tasksController");
 router.get("/", tasksController.getAllTasks);
 /*GET task form*/
 router.get("/create-task", tasksController.get_createTask);
+/*POST new task */
+router.post("/create-task", tasksController.createTask);
 /* GET all tasks of a single user*/
 router.get("/:userId/", tasksController.getAllUserTasks);
 
 /* Get a task */
 router.get("/:userId/:taskId", tasksController.getTask);
-
-/*POST new task */
-router.post("/:userId/create", tasksController.createTask);
 
 /*UPDATE task*/
 router.put("/:userId/:taskId/update", tasksController.updateTask);

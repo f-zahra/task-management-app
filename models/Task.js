@@ -8,13 +8,13 @@ const taskSchema = new Schema({
   dueDate: { type: Date, required: true },
   status: {
     type: String,
-    enum: ["Not Started", "In Progress", "Completed"],
+    enum: ["not started", "in progress", "completed"],
     default: "Not Started",
   },
   priority: {
     type: String,
-    enum: ["Low", "Medium", "High"],
-    default: "Medium",
+    enum: ["low", "medium", "high"],
+    default: "medium",
   },
   user: { type: Schema.Types.ObjectId, ref: "User", required: true },
 });
