@@ -22,6 +22,9 @@ exports.getTask = asyncHandler(async (req, res, next) => {
   res.status(200).send(task);
 });
 
+exports.get_createTask = (req, res, next) => {
+  res.render("task_form", { title: "Create Task" });
+};
 exports.createTask = asyncHandler(async (req, res, next) => {
   const { description, dueDate, status, priority, user } = req.body;
 

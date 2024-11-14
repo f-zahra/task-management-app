@@ -14,6 +14,8 @@ router.get("/:userId/:taskId", tasksController.getTask);
 /*POST new task */
 router.post("/:userId/create", tasksController.createTask);
 
+/*GET task form*/
+router.get("/create-task", tasksController.get_createTask);
 /*UPDATE task*/
 router.put("/:userId/:taskId/update", tasksController.updateTask);
 
