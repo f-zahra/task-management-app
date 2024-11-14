@@ -23,7 +23,8 @@ exports.getTask = asyncHandler(async (req, res, next) => {
 });
 
 exports.get_createTask = (req, res, next) => {
-  res.render("task_form", { title: "Create Task" });
+  const today = new Date().toISOString().split("T")[0];
+  res.render("task_form", { title: "Create Task", today: today });
 };
 exports.createTask = asyncHandler(async (req, res, next) => {
   const { description, dueDate, status, priority, user } = req.body;

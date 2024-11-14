@@ -1,0 +1,41 @@
+extends layout
+
+
+block content
+  h1=title
+
+  form( method='POST')
+    div.form-group
+      label(for='description') Description:
+      input#description.form-control(type='text', placeholder='description' name='description' required=true )
+    
+    div.form-group
+      label(for='dueDate') Due date:
+      input#dueDate.form-control(type='date' name='dueDate' min=today required=true )
+
+    div.form-group
+        label(for="status") Status:
+        select#status.form-control(name="status")
+            option(value="Not Started") Not Started
+            option(value="In Progress") In Progress
+            option(value="Completed") Completed
+
+    div.form-group
+        label(for="priority") Priority:
+        select#priority.form-control(name="priority")
+            option(value="low") low
+            option(value="medium") medium
+            option(value="high") high
+
+    div
+        label(for="selectedUser") Choose a user:
+        select#selectedUser.form-control(name="selectedUser", required=true)
+          option(value="") -- Select a User --
+            
+
+  button.btn.btn-primary(type='submit') Submit
+
+  if errors
+    ul
+      for error in errors
+        li!= error.msg
