@@ -1,5 +1,6 @@
 const userModel = require("../models/User");
 const asyncHandler = require("express-async-handler");
+const { body, validationResult } = require("express-validator");
 
 exports.getAllUsers = asyncHandler(async (req, res, next) => {
   const users = await userModel.find().exec();
@@ -15,14 +16,50 @@ exports.getUser = asyncHandler(async (req, res, next) => {
   res.status(200).send(user);
 });
 
-exports.createUser = asyncHandler(async (req, res, next) => {
-  const { name, email } = req.body;
+//Display User form
+exports.createUser_form = (req, res, next) => {
+  res.render("user_form", { title: "Create User" });
+};
 
-  const newUser = new userModel({ name, email });
+exports.createUser = [
+  // Validate and sanitize fields.
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("name must be specified.")
+    .isAlpha()
+    .withMessage("name is not valid"),
 
-  const savedUser = await newUser.save();
-  res.status(201).send(savedUser);
-});
+  body("email")
+    .isEmail()
+    .withMessage("Please enter a valid email address.")
+    .normalizeEmail(),
+
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+
+    const { name, email } = req.body;
+
+    const newUser = new userModel({ name, email });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/errors messages.
+      res.render("user_form", {
+        title: "Create User",
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      // Data from form is valid.
+
+      const savedUser = await newUser.save();
+
+      res.redirect("/users");
+    }
+  }),
+];
 exports.updateUser = asyncHandler(async (req, res, next) => {
   const updatedUser = await userModel.findByIdAndUpdate(
     req.params.userId,
