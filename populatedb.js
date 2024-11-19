@@ -28,10 +28,10 @@ async function populate_db() {
       const task = new Task({
         description: faker.lorem.sentence(),
         dueDate: faker.date.future(),
-        status: ["Not Started", "In Progress", "Completed"][
+        status: ["not started", "in progress", "completed"][
           Math.floor(Math.random() * 3)
         ],
-        priority: ["Low", "Medium", "High"][Math.floor(Math.random() * 3)],
+        priority: ["low", "medium", "high"][Math.floor(Math.random() * 3)],
         user: randomUser._id, // Assign a random user
       });
       await task.save();

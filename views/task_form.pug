@@ -4,36 +4,38 @@ extends layout
 block content
   h1=title
 
-  form( method='POST')
+  form( method='POST' )
+    
     div.form-group
       label(for='description') Description:
-      input#description.form-control(type='text', placeholder='description' name='description' required=true )
+      input#description.form-control(type='text', placeholder='description' name='description' value=task ? task.description : '' required=true )
     
     div.form-group
       label(for='dueDate') Due date:
-      input#dueDate.form-control(type='date' name='dueDate' min=today required=true )
+      input#dueDate.form-control(type='date' name='dueDate' min=today value=task ? task.dueDate.toISOString().split('T')[0] : '' : '' required=true  )
 
     div.form-group
         label(for="status") Status:
-        select#status.form-control(name="status")
-            option(value="not started") Not Started
-            option(value="in progress") In Progress
-            option(value="completed") Completed
+        select#status.form-control(name="status" )
+            option(value="not started", selected=task.status === 'not started') Not Started
+            option(value="in progress", selected=task.status === 'in progress') In Progress
+            option(value="completed", selected=task.status === 'completed') Completed
+
 
     div.form-group
         label(for="priority") Priority:
-        select#priority.form-control(name="priority")
-            option(value="low") low
-            option(value="medium") medium
-            option(value="high") high
+        select#priority.form-control(name="priority" value=task ? task.priority : '')
+            option(value="low", selected=task.priority === 'low') Low
+            option(value="medium", selected=task.priority === 'medium') Medium
+            option(value="high", selected=task.priority === 'high') High
 
     div.form-group
       label(for="selectedUser") Choose a user:
       select#selectedUser.form-control(name="selectedUser", required=true)
-        option(value="") -- Select a User --
+        option(value="",  selected=!task.user) -- Select a User --
         if users && users.length
           each user in users
-            option(value=user._id) #{user.name}
+            option(value=user._id ,selected=String(user._id) === String(task.user)) #{user.name}
         else
           option(value="") No users available
 

@@ -38,6 +38,21 @@ exports.get_createTask = asyncHandler(async (req, res, next) => {
     users: users_list,
   });
 });
+exports.get_updateTask = asyncHandler(async (req, res, next) => {
+  //find task
+  const task = await taskModel.findById(req.params.taskId);
+
+  const today = new Date().toISOString().split("T")[0];
+  const users_list = await all_users();
+  console.log(task);
+  //render form with task details
+  res.render("task_form", {
+    title: "Update task",
+    today: today,
+    users: users_list,
+    task: task,
+  });
+});
 exports.createTask = [
   // Validate and sanitize the "description" field
   body("description")
@@ -105,17 +120,82 @@ exports.createTask = [
   }),
 ];
 
-exports.updateTask = asyncHandler(async (req, res, next) => {
-  const updatedTask = await taskModel.findByIdAndUpdate(
-    req.params.taskId,
-    req.body,
-    { new: true }
-  );
-  res.status(200).send(updatedTask);
-});
+exports.updateTask = [
+  // Validate and sanitize the "description" field
+  body("description")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Description is required.")
+    .escape(),
+
+  // Validate "dueDate" field to be a valid date and not before today
+  body("dueDate")
+    .isISO8601()
+    .withMessage("Please provide a valid date.")
+    .custom((value) => {
+      const today = new Date().toISOString().split("T")[0];
+      return value >= today;
+    })
+    .withMessage("Due date cannot be in the past."),
+
+  // Validate "status" to be one of the specified options
+  body("status")
+    .isIn(["not started", "in progress", "completed"])
+    .withMessage("Invalid status selected."),
+
+  // Validate "priority" to be one of the specified options
+  body("priority")
+    .isIn(["low", "medium", "high"])
+    .withMessage("Invalid priority selected."),
+
+  // Validate "selectedUser" as a MongoDB ObjectId
+  body("selectedUser")
+    .trim()
+    .custom((value) => {
+      const id = value;
+      const isValid = /^[a-fA-F0-9]{24}$/.test(id);
+      return isValid;
+    })
+    .withMessage("Invalid user selected."),
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      //find task
+      const task = await taskModel.findById(req.params.taskId);
+      const users_list = await all_users();
+      const today = new Date().toISOString().split("T")[0];
+      res.render("task_form", {
+        users: users_list,
+        errors: errors.array(),
+        today: today,
+        task: task,
+      });
+    } else {
+      //update in database
+      const { description, dueDate, status, priority, selectedUser } = req.body;
+
+      const taskToUpdate = new taskModel({
+        description,
+        dueDate,
+        status,
+        priority,
+        user: selectedUser,
+        _id: req.params.taskId,
+      });
+      const updatedTask = await taskModel.findByIdAndUpdate(
+        req.params.taskId,
+        taskToUpdate,
+        { new: true }
+      );
+
+      res.redirect("/tasks");
+    }
+  }),
+];
 
 exports.deleteTask = asyncHandler(async (req, res, next) => {
   const taskToDelete = await taskModel.findByIdAndDelete(req.params.taskId);
-
-  res.status(200).send("task deleted");
+  console.log("task deleted");
+  res.redirect("/tasks");
 });

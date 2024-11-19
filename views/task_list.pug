@@ -9,17 +9,26 @@ block content
         li
           p= task.description
 
-          if task.status=='Completed'
+          if task.status=='completed'
             span.text-success #{task.status}
-          else if task.status=='Not Started'
+          else if task.status=='not started'
             span.text-danger #{task.status}
           else
             span.text-warning #{task.status}
-          if task.status!='Completed'
+          if task.status!='completed'
             span  (Due: #{task.due_back_formatted} )
 
           span Priority: 
             strong= task.priority
+          ul
+            li
+              a(href=`tasks/${task._id}/update-task`) edit task
+
+            li
+              form(action=`/tasks/${task._id}/delete-task`, method='POST')
+                input(type='hidden', name='_method', value='DELETE')
+                button(type='submit') Delete Task
+
 
   else
     p There are no tasks 
