@@ -68,6 +68,10 @@ exports.updateUser = asyncHandler(async (req, res, next) => {
   );
   res.status(200).send(updatedUser);
 });
+exports.get_updateUser_form = asyncHandler(async (req, res, next) => {
+  const user = await userModel.findById(req.params.userId);
+  res.render("user_form", { title: "Update User", user: user });
+});
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const userToDelete = await userModel.findByIdAndDelete(req.params.userId);
