@@ -159,7 +159,7 @@ exports.updateTask = [
     .withMessage("Invalid user selected."),
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-
+    console.log(req.body);
     if (!errors.isEmpty()) {
       //find task
       const task = await taskModel.findById(req.params.taskId);

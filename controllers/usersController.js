@@ -60,14 +60,41 @@ exports.createUser = [
     }
   }),
 ];
-exports.updateUser = asyncHandler(async (req, res, next) => {
-  const updatedUser = await userModel.findByIdAndUpdate(
-    req.params.userId,
-    req.body,
-    { new: true }
-  );
-  res.status(200).send(updatedUser);
-});
+exports.updateUser = [
+  body("name")
+    .trim()
+    .isLength({ min: 1 })
+    .escape()
+    .withMessage("name must be specified."),
+
+  body("email")
+    .isEmail()
+    .withMessage("Please enter a valid email address.")
+    .normalizeEmail(),
+  asyncHandler(async (req, res, next) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+
+    const { name, email } = req.body;
+
+    const userToUpdate = new userModel({ name, email, _id: req.params.userId });
+
+    if (!errors.isEmpty()) {
+      // There are errors. Render form again with sanitized values/errors messages.
+      res.render("user_form", {
+        title: "Update User",
+        errors: errors.array(),
+      });
+      return;
+    } else {
+      const updatedUser = await userModel.findByIdAndUpdate(
+        req.params.userId,
+        userToUpdate
+      );
+      res.redirect("/users");
+    }
+  }),
+];
 exports.get_updateUser_form = asyncHandler(async (req, res, next) => {
   const user = await userModel.findById(req.params.userId);
   res.render("user_form", { title: "Update User", user: user });

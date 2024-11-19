@@ -6,8 +6,7 @@ block content
   form( method='POST')
     div.form-group
       label(for='name') First Name:
-      input#first_name.form-control(type='text', placeholder='name (john doe)' name='name' required value=(undefined===user ? '' : user.name) )
-    
+      input#first_name.form-control(type='text', placeholder='name (john doe)' name='name' required value=user ? user.name : '')
     div.form-group
       label(for='email') email:
       input#email.form-control(type='email' name='email' value=(undefined===user ? '' : user.email) )
