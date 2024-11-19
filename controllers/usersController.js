@@ -102,5 +102,5 @@ exports.get_updateUser_form = asyncHandler(async (req, res, next) => {
 
 exports.deleteUser = asyncHandler(async (req, res, next) => {
   const userToDelete = await userModel.findByIdAndDelete(req.params.userId);
-  res.status(200).send("user deleted");
+  res.redirect("/users");
 });

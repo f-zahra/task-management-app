@@ -12,6 +12,10 @@ block content
           a(href=`/users/${user.id}/update`) #{user.name}
          
           |  (task count: #{user.TaskCount || "NOT IMPLEMENTED"}) 
+        li
+              form(action=`/users/${user._id}/delete-user`, method='POST')
+                input(type='hidden', name='_method', value='DELETE')
+                button(type='submit') Delete user
 
   else
     p There are no users.
